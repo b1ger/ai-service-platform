@@ -13,29 +13,29 @@ def main():
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Intake command
-    intake_parser = subparsers.add_parser("intake", help="Generate intake summary")
+    intake_parser = subparsers.add_parser("intake", help="Generate an intake summary from raw notes")
     intake_parser.add_argument("--input", required=True, help="Path to raw intake text file")
-    intake_parser.add_argument("--segment", required=True, choices=["contractor", "furniture", "clinic"], help="Client segment")
-    intake_parser.add_argument("--output", required=True, help="Path to save markdown output")
+    intake_parser.add_argument("--segment", required=True, choices=["contractor", "furniture", "clinic"], help="Target client segment")
+    intake_parser.add_argument("--output", required=True, help="Destination path for markdown output")
 
     # Workflow command
-    workflow_parser = subparsers.add_parser("workflow", help="Generate workflow map")
-    workflow_parser.add_argument("--input", required=True, help="Path to workflow notes file")
-    workflow_parser.add_argument("--name", required=True, help="Workflow name")
-    workflow_parser.add_argument("--segment", required=True, help="Client segment")
-    workflow_parser.add_argument("--output", required=True, help="Path to save markdown output")
+    workflow_parser = subparsers.add_parser("workflow", help="Generate a structured workflow map from notes")
+    workflow_parser.add_argument("--input", required=True, help="Path to raw workflow notes text file")
+    workflow_parser.add_argument("--name", required=True, help="Name of the workflow")
+    workflow_parser.add_argument("--segment", required=True, help="Target client segment")
+    workflow_parser.add_argument("--output", required=True, help="Destination path for markdown output")
 
     # Proposal command
-    proposal_parser = subparsers.add_parser("proposal", help="Generate proposal draft")
-    proposal_parser.add_argument("--input", required=True, help="Path to discovery summary file")
-    proposal_parser.add_argument("--name", required=True, help="Proposal/Workflow name")
-    proposal_parser.add_argument("--output", required=True, help="Path to save markdown output")
+    proposal_parser = subparsers.add_parser("proposal", help="Generate a pilot proposal draft from a discovery summary")
+    proposal_parser.add_argument("--input", required=True, help="Path to structured discovery summary markdown")
+    proposal_parser.add_argument("--name", required=True, help="Name of the proposed pilot workflow")
+    proposal_parser.add_argument("--output", required=True, help="Destination path for markdown output")
 
     # Delivery command
-    delivery_parser = subparsers.add_parser("delivery", help="Generate delivery pack")
-    delivery_parser.add_argument("--workflow", required=True, help="Path to completed workflow map")
-    delivery_parser.add_argument("--notes", required=True, help="Path to delivery notes file")
-    delivery_parser.add_argument("--output", required=True, help="Path to save markdown output")
+    delivery_parser = subparsers.add_parser("delivery", help="Generate a client-facing delivery pack")
+    delivery_parser.add_argument("--workflow", required=True, help="Path to the finalized workflow map markdown")
+    delivery_parser.add_argument("--notes", required=True, help="Path to raw delivery notes text file")
+    delivery_parser.add_argument("--output", required=True, help="Destination path for markdown output")
 
     args = parser.parse_args()
 

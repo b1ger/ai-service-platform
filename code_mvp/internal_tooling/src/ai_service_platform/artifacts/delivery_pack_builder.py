@@ -1,3 +1,4 @@
+"""Generator for building client-facing delivery packs."""
 from ai_service_platform.schemas import DeliveryPackResult
 from ai_service_platform.utils.parsing import extract_sections, extract_bullets
 
@@ -6,7 +7,7 @@ def build_delivery_pack(workflow_text: str, notes_text: str) -> DeliveryPackResu
     notes_sections = extract_sections(notes_text)
     
     return DeliveryPackResult(
-        client_business="TBD",
+        client_business="[Client / Business]",
         summary=notes_sections.get("Summary", "Workflow implementation complete."),
         current_issue=extract_bullets(notes_sections.get("Current Issue", "")),
         proposed_workflow=extract_bullets(wf_sections.get("Core steps", "")),
@@ -18,7 +19,7 @@ def build_delivery_pack(workflow_text: str, notes_text: str) -> DeliveryPackResu
     )
 
 def render_delivery_markdown(res: DeliveryPackResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- [Not specified]"
     
     return f"""# Client Delivery Pack
 

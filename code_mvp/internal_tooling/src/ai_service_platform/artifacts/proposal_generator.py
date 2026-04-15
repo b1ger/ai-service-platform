@@ -1,3 +1,4 @@
+"""Generator for drafting pilot proposals based on discovery summaries."""
 from ai_service_platform.schemas import ProposalResult
 from ai_service_platform.utils.parsing import extract_sections, extract_bullets, find_value_by_prefix
 
@@ -5,9 +6,9 @@ def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult
     sections = extract_sections(discovery_text)
     prospect_lines = sections.get("Prospect", "").splitlines()
     
-    client_name = find_value_by_prefix(prospect_lines, "Name") or "TBD"
-    business_name = find_value_by_prefix(prospect_lines, "Business") or "TBD"
-    contact = find_value_by_prefix(prospect_lines, "Channel") or "TBD"
+    client_name = find_value_by_prefix(prospect_lines, "Name") or "[Not specified]"
+    business_name = find_value_by_prefix(prospect_lines, "Business") or "[Not specified]"
+    contact = find_value_by_prefix(prospect_lines, "Channel") or "[Not specified]"
     
     request_summary = extract_bullets(sections.get("Request Summary", ""))
     if not request_summary:
@@ -35,8 +36,8 @@ def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult
     )
 
 def render_proposal_markdown(res: ProposalResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
-    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1. "
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- [Not specified]"
+    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1. [Not specified]"
     
     return f"""# Proposal — {res.proposed_solution[0]}
 

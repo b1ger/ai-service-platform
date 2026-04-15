@@ -1,3 +1,4 @@
+"""Generator for mapping raw notes into structured markdown workflow maps."""
 from ai_service_platform.schemas import WorkflowResult
 from ai_service_platform.utils.parsing import extract_bullets, extract_sections
 
@@ -18,8 +19,8 @@ def generate_workflow(notes: str, name: str, segment: str) -> WorkflowResult:
     )
 
 def render_workflow_markdown(res: WorkflowResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
-    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1."
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- [Not specified]"
+    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1. [Not specified]"
     
     return f"""# Workflow Map — {res.workflow_name}
 
@@ -54,5 +55,5 @@ def render_workflow_markdown(res: WorkflowResult) -> str:
 {list_to_md(res.success_criteria)}
 
 ## Notes
-- TBD
+- [Not specified]
 """

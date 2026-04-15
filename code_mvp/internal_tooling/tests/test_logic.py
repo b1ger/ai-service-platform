@@ -83,5 +83,12 @@ class TestLogic(unittest.TestCase):
         self.assertIn("## Exceptions to watch", md)
         self.assertIn("## Recommended next step", md)
 
+    def test_empty_fallback_rendering(self):
+        from ai_service_platform.artifacts.workflow_generator import generate_workflow, render_workflow_markdown
+        res = generate_workflow("", "Empty WF", "none")
+        md = render_workflow_markdown(res)
+        self.assertIn("[Not specified]", md)
+        self.assertNotIn("TBD", md)
+
 if __name__ == "__main__":
     unittest.main()

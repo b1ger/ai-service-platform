@@ -1,5 +1,5 @@
+"""Processor for generating client intake summaries from raw notes."""
 from ai_service_platform.schemas import IntakeResult
-from ai_service_platform.utils.parsing import extract_bullets
 import re
 
 def process_intake(raw_text: str, segment: str) -> IntakeResult:
@@ -37,8 +37,8 @@ def process_intake(raw_text: str, segment: str) -> IntakeResult:
         
     return IntakeResult(
         client_name=client_name,
-        business_name="TBD",
-        contact_channel="TBD",
+        business_name="[Not specified]",
+        contact_channel="[Not specified]",
         request_summary=lines[0] if lines else "Empty inquiry",
         lead_category=category,
         missing_information=missing,
@@ -47,7 +47,7 @@ def process_intake(raw_text: str, segment: str) -> IntakeResult:
     )
 
 def render_intake_markdown(result: IntakeResult) -> str:
-    missing_md = "\n".join([f"- {m}" for m in result.missing_information]) if result.missing_information else "- "
+    missing_md = "\n".join([f"- {m}" for m in result.missing_information]) if result.missing_information else "- [None identified]"
     return f"""# Client Intake Summary
 
 ## Client
@@ -59,13 +59,13 @@ def render_intake_markdown(result: IntakeResult) -> str:
 - Requested service: {result.request_summary}
 - Main pain point: {result.lead_category}
 - Urgency: {"Urgent" if "hot" in result.lead_category.lower() else "Standard"}
-- Timing: TBD
+- Timing: [Not specified]
 
 ## Important details
-- Budget: TBD
-- Location: TBD
-- Constraints: TBD
-- Supporting materials: TBD
+- Budget: [Not specified]
+- Location: [Not specified]
+- Constraints: [Not specified]
+- Supporting materials: [Not specified]
 
 ## Missing information
 {missing_md}
