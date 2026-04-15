@@ -1,0 +1,33 @@
+# Purpose
+Automate initial contractor inquiry handling.
+
+# Trigger
+New Instagram DM received.
+
+# Inputs
+- Client message
+- Instagram profile link
+
+# Steps
+- Parse message for job type
+- Check for location and photos
+- Send first response
+- Flag for follow-up
+
+# Decision Points
+- If location missing, ask for it.
+- If photos missing, ask for them.
+
+# Outputs
+- Lead summary
+- Clarification request
+
+# Human Review
+- Owner approves final estimate.
+
+# Exceptions
+- Urgent repair outside working hours.
+
+# Success Criteria
+- Response time < 2 hours.
+- No lead left without reply for > 24h.

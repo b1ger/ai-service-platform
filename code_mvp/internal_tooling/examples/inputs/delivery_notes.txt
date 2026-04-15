@@ -1,0 +1,21 @@
+# Summary
+Standardized inquiry flow for RenovPro Team.
+
+# Current Issue
+- Leads lost in Instagram DMs.
+- Repetitive manual typing of same questions.
+
+# Improvements
+- Faster response time.
+- Structured intake briefs.
+
+# Templates
+- First Response Template
+- Follow-up Template
+
+# How to use
+- Use the intake processor for every new DM.
+- Review the daily summary every morning.
+
+# Next step
+Review the workflow with the team and start using templates.
