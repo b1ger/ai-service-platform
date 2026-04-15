@@ -9,11 +9,23 @@ def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult
     business_name = find_value_by_prefix(prospect_lines, "Business") or "TBD"
     contact = find_value_by_prefix(prospect_lines, "Channel") or "TBD"
     
+    request_summary = extract_bullets(sections.get("Request Summary", ""))
+    if not request_summary:
+        for section in ["Observed pain point", "Current workflow summary", "Repeated tasks", "Strongest pilot candidate"]:
+            extracted = extract_bullets(sections.get(section, ""))
+            if extracted:
+                request_summary.extend(extracted)
+            elif sections.get(section):
+                request_summary.append(sections[section].strip())
+    
+    if not request_summary:
+        request_summary = ["Client needs automation."]
+    
     return ProposalResult(
         client_name=client_name,
         business_name=business_name,
         contact=contact,
-        request_summary=extract_bullets(sections.get("Request Summary", "Client needs automation.")),
+        request_summary=request_summary,
         proposed_solution=[f"Implement {workflow_name} to streamline operations."],
         scope_included=[workflow_name, "Template set", "Usage guide"],
         scope_excluded=["Full CRM integration", "Custom software development"],
@@ -24,6 +36,7 @@ def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult
 
 def render_proposal_markdown(res: ProposalResult) -> str:
     def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
+    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1. "
     
     return f"""# Proposal — {res.proposed_solution[0]}
 
@@ -45,7 +58,7 @@ def render_proposal_markdown(res: ProposalResult) -> str:
 {list_to_md(res.scope_excluded)}
 
 ## Workflow / delivery
-{list_to_md(res.workflow_delivery)}
+{list_to_num_md(res.workflow_delivery)}
 
 ## Expected outcome
 {list_to_md(res.expected_outcome)}

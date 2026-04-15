@@ -23,14 +23,13 @@ class TestLogic(unittest.TestCase):
         self.assertIn("Photos of the area", result.missing_information)
 
     def test_process_intake_contractor_found(self):
-        raw = "From: Serhii\nI need a contractor. The location is Kyiv. I have photos."
-        result = process_intake(raw, "contractor")
-        # In current simple version, it still fails because it looks for 'location' word
-        # But wait, 'Kyiv' doesn't contain 'location'.
-        # Let's adjust the test to match the heuristic 'location' word for now.
-        raw = "From: Serhii\nI need a contractor. Here is the location and a photo."
+        raw = "From: Serhii\nI need a contractor. We are in Lviv. I have photos."
         result = process_intake(raw, "contractor")
         self.assertEqual(result.missing_information, [])
+        
+        raw2 = "From: Alex\nI need a contractor in Kyiv with some images."
+        result2 = process_intake(raw2, "contractor")
+        self.assertEqual(result2.missing_information, [])
 
     def test_workflow_markdown_shape(self):
         from ai_service_platform.artifacts.workflow_generator import generate_workflow, render_workflow_markdown
@@ -57,6 +56,17 @@ class TestLogic(unittest.TestCase):
         self.assertIn("## Scope", md)
         self.assertIn("- included:", md)
         self.assertIn("- not included:", md)
+        self.assertIn("1. Discovery review", md) # checking numbered list formatting
+
+    def test_proposal_fallback_logic(self):
+        from ai_service_platform.artifacts.proposal_generator import generate_proposal
+        discovery_no_summary = "# Observed pain point\n- Lots of manual typing"
+        res = generate_proposal(discovery_no_summary, "Test Pilot")
+        self.assertIn("Lots of manual typing", res.request_summary)
+
+        discovery_text_pain = "# Observed pain point\nOwner feels overwhelmed."
+        res2 = generate_proposal(discovery_text_pain, "Test Pilot")
+        self.assertIn("Owner feels overwhelmed.", res2.request_summary)
 
     def test_delivery_markdown_shape(self):
         from ai_service_platform.artifacts.delivery_pack_builder import build_delivery_pack, render_delivery_markdown

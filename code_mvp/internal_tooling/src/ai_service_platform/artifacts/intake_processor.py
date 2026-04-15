@@ -1,5 +1,6 @@
 from ai_service_platform.schemas import IntakeResult
 from ai_service_platform.utils.parsing import extract_bullets
+import re
 
 def process_intake(raw_text: str, segment: str) -> IntakeResult:
     lines = raw_text.splitlines()
@@ -22,7 +23,13 @@ def process_intake(raw_text: str, segment: str) -> IntakeResult:
     # Heuristic: missing info by segment
     missing = []
     if segment == "contractor":
-        if "location" not in text_lower: missing.append("Job location")
+        has_location = any(k in text_lower for k in ["location", "address", "city", "we are in", "based in"])
+        if not has_location and re.search(r'\bin [A-Z]', raw_text):
+            has_location = True
+            
+        if not has_location:
+            missing.append("Job location")
+            
         if not any(k in text_lower for k in ["photo", "image", "picture"]): missing.append("Photos of the area")
     elif segment == "furniture":
         if "dimension" not in text_lower and "size" not in text_lower: missing.append("Dimensions")
