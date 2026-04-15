@@ -18,11 +18,13 @@ def build_delivery_pack(workflow_text: str, notes_text: str) -> DeliveryPackResu
     )
 
 def render_delivery_markdown(res: DeliveryPackResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l])
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
     
     return f"""# Client Delivery Pack
 
 ## Summary
+This document summarizes the workflow improvement proposed for {res.client_business}.
+
 {res.summary}
 
 ## Current issue
@@ -44,5 +46,5 @@ def render_delivery_markdown(res: DeliveryPackResult) -> str:
 {list_to_md(res.exceptions)}
 
 ## Recommended next step
-{res.next_step}
+- {res.next_step}
 """

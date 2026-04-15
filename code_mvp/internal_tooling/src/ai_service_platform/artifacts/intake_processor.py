@@ -40,7 +40,7 @@ def process_intake(raw_text: str, segment: str) -> IntakeResult:
     )
 
 def render_intake_markdown(result: IntakeResult) -> str:
-    missing_md = "\n".join([f"- {m}" for m in result.missing_information])
+    missing_md = "\n".join([f"- {m}" for m in result.missing_information]) if result.missing_information else "- "
     return f"""# Client Intake Summary
 
 ## Client
@@ -50,7 +50,15 @@ def render_intake_markdown(result: IntakeResult) -> str:
 
 ## Request
 - Requested service: {result.request_summary}
-- Lead category: {result.lead_category}
+- Main pain point: {result.lead_category}
+- Urgency: {"Urgent" if "hot" in result.lead_category.lower() else "Standard"}
+- Timing: TBD
+
+## Important details
+- Budget: TBD
+- Location: TBD
+- Constraints: TBD
+- Supporting materials: TBD
 
 ## Missing information
 {missing_md}
@@ -59,5 +67,5 @@ def render_intake_markdown(result: IntakeResult) -> str:
 - {result.recommended_next_step}
 
 ## Draft reply
-{result.draft_reply}
+- {result.draft_reply}
 """

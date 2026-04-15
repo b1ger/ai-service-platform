@@ -22,7 +22,7 @@ asp-tool workflow --input examples/inputs/workflow_notes.txt --name "New Inquiry
 
 ### Proposal Generator
 ```bash
-asp-tool proposal --input examples/outputs/intake_summary.md --name "Contractor Inquiry Pilot" --output examples/outputs/proposal_draft.md
+asp-tool proposal --input examples/inputs/discovery_summary.txt --name "Inquiry Automation Pilot" --output examples/outputs/proposal_draft.md
 ```
 
 ### Delivery Pack Generator

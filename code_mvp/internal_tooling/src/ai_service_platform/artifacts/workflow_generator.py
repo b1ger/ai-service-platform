@@ -18,10 +18,13 @@ def generate_workflow(notes: str, name: str, segment: str) -> WorkflowResult:
     )
 
 def render_workflow_markdown(res: WorkflowResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- TBD"
-    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1. TBD"
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
+    def list_to_num_md(l): return "\n".join([f"{i+1}. {v}" for i, v in enumerate(l)]) if l else "1."
     
     return f"""# Workflow Map — {res.workflow_name}
+
+## Workflow name
+{res.workflow_name}
 
 ## Purpose
 {res.purpose}
@@ -49,4 +52,7 @@ def render_workflow_markdown(res: WorkflowResult) -> str:
 
 ## Success criteria
 {list_to_md(res.success_criteria)}
+
+## Notes
+- TBD
 """

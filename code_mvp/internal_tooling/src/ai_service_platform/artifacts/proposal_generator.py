@@ -1,13 +1,18 @@
 from ai_service_platform.schemas import ProposalResult
-from ai_service_platform.utils.parsing import extract_sections, extract_bullets
+from ai_service_platform.utils.parsing import extract_sections, extract_bullets, find_value_by_prefix
 
 def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult:
     sections = extract_sections(discovery_text)
+    prospect_lines = sections.get("Prospect", "").splitlines()
+    
+    client_name = find_value_by_prefix(prospect_lines, "Name") or "TBD"
+    business_name = find_value_by_prefix(prospect_lines, "Business") or "TBD"
+    contact = find_value_by_prefix(prospect_lines, "Channel") or "TBD"
     
     return ProposalResult(
-        client_name="TBD",
-        business_name="TBD",
-        contact="TBD",
+        client_name=client_name,
+        business_name=business_name,
+        contact=contact,
         request_summary=extract_bullets(sections.get("Request Summary", "Client needs automation.")),
         proposed_solution=[f"Implement {workflow_name} to streamline operations."],
         scope_included=[workflow_name, "Template set", "Usage guide"],
@@ -18,7 +23,7 @@ def generate_proposal(discovery_text: str, workflow_name: str) -> ProposalResult
     )
 
 def render_proposal_markdown(res: ProposalResult) -> str:
-    def list_to_md(l): return "\n".join([f"- {i}" for i in l])
+    def list_to_md(l): return "\n".join([f"- {i}" for i in l]) if l else "- "
     
     return f"""# Proposal — {res.proposed_solution[0]}
 
@@ -34,9 +39,9 @@ def render_proposal_markdown(res: ProposalResult) -> str:
 {list_to_md(res.proposed_solution)}
 
 ## Scope
-### Included:
+- included:
 {list_to_md(res.scope_included)}
-### Excluded:
+- not included:
 {list_to_md(res.scope_excluded)}
 
 ## Workflow / delivery
@@ -46,5 +51,5 @@ def render_proposal_markdown(res: ProposalResult) -> str:
 {list_to_md(res.expected_outcome)}
 
 ## Next step
-{res.next_step}
+- {res.next_step}
 """

@@ -32,5 +32,46 @@ class TestLogic(unittest.TestCase):
         result = process_intake(raw, "contractor")
         self.assertEqual(result.missing_information, [])
 
+    def test_workflow_markdown_shape(self):
+        from ai_service_platform.artifacts.workflow_generator import generate_workflow, render_workflow_markdown
+        notes = "# Purpose\nTest purpose\n# Steps\n- Step 1"
+        res = generate_workflow(notes, "Test WF", "test")
+        md = render_workflow_markdown(res)
+        self.assertIn("# Workflow Map — Test WF", md)
+        self.assertIn("## Workflow name", md)
+        self.assertIn("## Purpose", md)
+        self.assertIn("## Core steps", md)
+        self.assertIn("## Human-in-the-loop steps", md)
+
+    def test_proposal_markdown_shape(self):
+        from ai_service_platform.artifacts.proposal_generator import generate_proposal, render_proposal_markdown
+        discovery = "# Prospect\nName: Serhii\nBusiness: RenovPro\n# Request Summary\n- Problem 1"
+        res = generate_proposal(discovery, "Test Pilot")
+        md = render_proposal_markdown(res)
+        self.assertIn("# Proposal — Implement Test Pilot", md)
+        self.assertIn("## Client", md)
+        self.assertIn("- Name: Serhii", md)
+        self.assertIn("- Business: RenovPro", md)
+        self.assertIn("## Request summary", md)
+        self.assertIn("- Problem 1", md)
+        self.assertIn("## Scope", md)
+        self.assertIn("- included:", md)
+        self.assertIn("- not included:", md)
+
+    def test_delivery_markdown_shape(self):
+        from ai_service_platform.artifacts.delivery_pack_builder import build_delivery_pack, render_delivery_markdown
+        wf = "# Core steps\n- Step 1\n# Exceptions / edge cases\n- Edge 1"
+        notes = "# Summary\nDone\n# Current Issue\n- Issue 1\n# Templates\n- Template 1"
+        res = build_delivery_pack(wf, notes)
+        md = render_delivery_markdown(res)
+        self.assertIn("# Client Delivery Pack", md)
+        self.assertIn("## Summary", md)
+        self.assertIn("## Current issue", md)
+        self.assertIn("## Proposed workflow", md)
+        self.assertIn("## What is improved", md)
+        self.assertIn("## Templates included", md)
+        self.assertIn("## Exceptions to watch", md)
+        self.assertIn("## Recommended next step", md)
+
 if __name__ == "__main__":
     unittest.main()
