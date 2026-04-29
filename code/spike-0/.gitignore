@@ -1,0 +1,7 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+assets/outputs/*.png
+assets/outputs/*.jpg
+!assets/outputs/.gitkeep

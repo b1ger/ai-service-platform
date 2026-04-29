@@ -1,77 +1,50 @@
 # START HERE
 
 ## Purpose
-This file is the execution entrypoint for Gemini CLI and for any future operator working in this repository.
+Entry point for the operator (you) and for Claude Code working in this repo.
 
-## What this repository is
-A service-first operating repo for building an AI-assisted business that:
-1. starts with routine automation for small businesses
-2. expands into document cleanup and repackaging
-3. later productizes repeated patterns into narrow AI assistants
+## What this repo is now
+A working repository for building **Composer** — a vertical AI image tool for Ukrainian DTC manufacturers that generates SEO-optimized product photography for e-commerce galleries while preserving brand assets exactly.
 
-## What phase we are in now
-Read `CURRENT_PHASE.md`.
+Earlier iteration framed this as a service business (consulting / automation). That direction was discarded on 2026-04-29 — git history retains the old files if anything needs to be referenced.
 
-Current default:
-**Phase 1 — automation-first service delivery**
+## What phase we are in
+**Phase 0 — Discovery & MVP scoping.**
+See `CURRENT_PHASE.md` for explicit scope.
 
-## Read these files first
-In this order:
-1. `CURRENT_PHASE.md`
-2. `GEMINI.md`
-3. `PROJECT_SCOPE.md`
-4. `TARGET_CLIENTS.md`
-5. `dev_plan.md`
-6. `BACKLOG.md`
-
-Then read task-specific files:
-- `playbooks/`
-- `templates/`
-- `prompts/`
-- `filled_examples/`
-- `ops/`
+## Read these files first, in order
+1. `CURRENT_PHASE.md` — what we're doing right now
+2. `PRODUCT_HYPOTHESIS.md` — what we believe and why
+3. `FAILURE_MODES_OBSERVED.md` — the technical brief, derived from real user data
+4. `DESIGN_PARTNER_LOG.md` — current state of discovery
+5. `NEXT_STEPS.md` — concrete near-term actions
+6. `CLAUDE.md` — operating rules for Claude Code
 
 ## What to work on now
-Prioritize:
-- outreach
-- discovery
-- workflow mapping
-- pilot proposals
-- delivery packs
-- reusable message templates
-- pilot documentation
+The single highest-priority outcome right now is:
+**Lock MVP scope after voice call with the design partner (Kateryna at Shower Pack).**
+
+Subordinate tasks supporting that outcome are listed in `NEXT_STEPS.md`.
 
 ## What NOT to work on now
-Do not prioritize:
-- full SaaS design
-- advanced integrations
-- broad CRM design
-- multi-role platform architecture
-- generic universal assistant design
-- product work beyond the current service phase
+- Full UI design / production frontend
+- Backend infrastructure beyond a local prototype
+- Pricing pages, marketing site, billing
+- Outreach to additional brands beyond the design partner
+- Anything from the archived service-business framing
 
-## Default operating flow
-1. identify the artifact type
-2. read the relevant template
-3. read the relevant playbook
-4. read one relevant filled example
-5. generate the requested artifact
-6. check against `ACCEPTANCE_CRITERIA.md`
-7. check against `ops/artifact_qa_matrix.md`
+## Operating principles
+- One design partner at a time until first MVP is shipped
+- Real data over assumptions: every product decision must trace back to a verbatim quote or observed failure
+- Constrained scope: prefer a narrow tool that nails one workflow over a broad tool that does everything mediocrely
+- Composite-first, generate-second: brand assets are sacred and never regenerated
+- Validate via the partner's actual usage, not by feature count
 
-## Main folders
-- `offers/` — packaged offers
-- `playbooks/` — workflow logic
-- `prompts/` — task prompts
-- `templates/` — reusable output templates
-- `filled_examples/` — realistic examples for few-shot guidance
-- `ops/` — QA, pricing, conventions, and checklists
+## Decision gates
+- Gate 1: Lock MVP scope (after voice call). Gate criterion: 5–7 page document any developer could pick up and build.
+- Gate 2: Ship first usable prototype to design partner (target: 4–6 weeks of focused work after Gate 1).
+- Gate 3: Partner uses prototype on at least 5 real product cards. Gate criterion: documented time savings vs. their ChatGPT workflow.
+- Gate 4: Decide whether to scale to additional brands or kill / pivot. Gate criterion: partner is willing to pay AND introduces ≥2 similar brands.
 
-## If unsure what to do
-Read:
-- `CURRENT_PHASE.md`
-- `BACKLOG.md`
-- `gemini_task_recipes.md`
-
-## Success condition for current stage
-Help generate materials needed to win and deliver the first 3–5 pilot clients in one or two small business niches.
+## When in doubt
+Re-read `PRODUCT_HYPOTHESIS.md` and `FAILURE_MODES_OBSERVED.md`. If the work in front of you doesn't move us toward Gate 1 or 2, it's not the right work.
